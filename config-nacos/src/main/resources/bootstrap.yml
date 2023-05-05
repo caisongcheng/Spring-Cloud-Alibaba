@@ -1,0 +1,30 @@
+spring:
+  application:
+    # name 对应nacos配置中心的dataid，因此一般dataid最好和服务名，如果一个服务有多个dataid,则需要指定dataid
+    # 跟服务名相同的dataid的配置文件，称之为默认的配置文件
+    # 除了默认的配置文件，其他配置文件必须写上后缀
+    name: com.tuling.order.redis
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      username: nacos
+      password: nacos
+      # 解决控制台循环打印clientWorker日志
+      #config:
+        #namespace: public
+      # Nacos默认是读取的properties格式的文件
+      # 一旦修改成非properties格式，需要用file-extension去配置
+      config:
+        # 这个file-extension配置项只针对默认配置文件和profile，同样group也是针对默认配置文件的
+        # 自定义的dataid和这两个配置项没有关系
+        file-extension: yaml
+        namespace: dev
+        group: tulingmall
+        # 切换其他namespace,不是默认的public时，创建namespace时命名空间id和命名空间名保持一致，命名空间id不要自动生成
+        shared-configs:
+          - data-id: com.tuling.order.common.properties
+            refresh: true
+            # group是默认Default-group,如果你的是默认group，不需要设置
+# 配置文件的优先级（优先级大的会覆盖小的，并且会形成互补）
+# 配置文件优先级：profile > 默认配置文件 > 自定义dataid配置文件
+# 建议根据namespace来创建配置文件，用profile来配置不同环境的配置文件，无法进行权限管理
