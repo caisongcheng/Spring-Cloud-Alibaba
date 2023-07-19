@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: com.tuling.order
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      username: nacos
+      password: nacos
+      #config:
+        #namespace: dev
+
+      # Nacos客户端默认是properties文件扩展名，如果是其他格式需要指定
+      config:
+        file-extension: yaml #该配置项只针对默认配置文件生效，对于profile以及自定义dataId的方式都会自己指定后缀
+        #refresh-enabled: false 设置为false,则不能动态感知到nacos配置文件的变化
+        #namespace不是public的，不能填写namespace的名字，而是要填写对应命名空间的空间ID
+        namespace: 09f170ca-0e1e-4212-ad32-a2d3d045c8d5
+        #对于不同的group下可以存在相同的dataId
+        group: tulingmall #group也是只针对默认配置文件以及profile生效，自定义的group可以自己指定
+        #默认配置文件是指dataId和服务名一致的配置文件
+
+        #自定义dataId格式：名称.配置文件格式，shared-config方式
+        shared-configs:
+          - data-id: com.tuling.order.commons.properties
+            refresh: true
+            #group: 默认是DEFAULT_GROUP
+          - data-id: com.tuling.order.commons02.properties
+            refresh: true
+        extension-configs[0]:
+          data-id: com.tuling.order.commons03.properties
+          refresh: true
+

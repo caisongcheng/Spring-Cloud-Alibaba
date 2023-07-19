@@ -1,0 +1,19 @@
+server:
+  port: 8089
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    # gataway配置
+    gateway:
+      discovery:
+        locator:
+          enabled: true  # 是否启动自动识别nacos服务（约定大于配置），一般不会采用这种方法配置，因为看不到路由、断言、以及过滤规则
+          # 请求的url为http://localhost:8089/order-service/order/add
+          # 自动转到order nacos服务的order/add接口 http://localhost:8020/order/add
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        username: nacos
+        password: nacos
+

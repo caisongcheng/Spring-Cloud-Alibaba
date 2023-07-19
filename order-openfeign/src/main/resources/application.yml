@@ -1,0 +1,27 @@
+server:
+  port: 8050
+spring:
+  application:
+    name: order-service
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        username: nacos
+        password: nacos
+# springboot默认日志级别是INFO级别，而OpenFeign日志级别是debug,info大于debug,所以不会输出
+logging:
+  level:
+    com.tuling.order.feign: debug
+#也可以不使用配置类的方式，通过配置文件来配置Feign的日志信息以及超时时间（局部配置）
+feign:
+  client:
+    config:
+      product-service:
+        logger-level: BASIC
+        #单位毫秒，默认2s,连接超时时间（两个服务之间网络连接时间）
+        connect-timeout: 5000
+        #单位毫秒，默认10s,请求处理超时时间（服务提供方响应的时间如果一旦超过请求处理超时时间，则会报错）
+        read-timeout: 10000
+        requestInterceptors:
+          - com.tuling.order.intercptor.feign.CustomFeignInterceptor
